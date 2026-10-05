@@ -1,0 +1,51 @@
+// 4. Native Web Share API
+        function shareCard() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Irvan Purnawan - CV. Threede Project',
+                    text: 'Kartu Nama Digital Irvan Purnawan (Administrasi - CV. Threede Project)',
+                    url: window.location.href,
+                }).catch(() => {
+                    // Ignored cancel share
+                });
+            } else {
+                copyToClipboard(window.location.href, 'Link kartu nama berhasil disalin!');
+            }
+        }
+
+        // 5. QR Code Modal Launcher & Generator
+        let qrGenerated = false;
+
+        function toggleQRModal() {
+            const modal = document.getElementById('qrModal');
+            const modalCard = document.getElementById('qrModalCard');
+
+            if (modal.classList.contains('opacity-0')) {
+                // Open Modal
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalCard.classList.remove('scale-95');
+                modalCard.classList.add('scale-100');
+
+                // Generate QR Code only once
+                if (!qrGenerated) {
+                    const currentUrl = window.location.href || 'https://cvthreedeproject.com';
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: currentUrl,
+                        width: 160,
+                        height: 160,
+                        colorDark : "#3D2314",
+                        colorLight : "#FAF6F0",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                    qrGenerated = true;
+                }
+            } else {
+                // Close Modal
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-95');
+            }
+        }
+    </script>
+</body>
+</html>
